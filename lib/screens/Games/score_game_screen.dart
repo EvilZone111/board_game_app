@@ -93,7 +93,6 @@ class _ScoreGamePageState extends State<ScoreGamePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                      //TODO: сделать фиксированную высоту
                       child: Image.network(
                         widget.game.image,
                         fit: BoxFit.fill,
@@ -109,6 +108,7 @@ class _ScoreGamePageState extends State<ScoreGamePage> {
                             ),
                           );
                         },
+                        height: MediaQuery.of(context).size.height/3,
                       ),
                     ),
                     Text(

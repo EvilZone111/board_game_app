@@ -57,7 +57,7 @@ class _CustomButtonState extends State<CustomButton> {
               color: Colors.white,
             ),
           ),
-        )
+        ),
       ),
     );
   }

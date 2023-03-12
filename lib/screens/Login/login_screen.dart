@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final ApiService _apiService = ApiService();
 
-  //TODO: только одно сообщение про логин или пароль
   void login(context) async{
     setState(() {
       widget.emailErrorMsg = null;
@@ -40,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       }
       else{
         setState(() {
-          widget.emailErrorMsg = 'Неверный логин или пароль';
+          widget.emailErrorMsg = '';
           widget.passwordErrorMsg = 'Неверный логин или пароль';
         });
       }
@@ -93,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                                 widget.emailErrorMsg = 'Неверный формат электронной почты';
                                 return widget.emailErrorMsg;
                               }
+                              return null;
                             },
                             errorMsg: widget.emailErrorMsg,
                           ),
@@ -106,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                                 widget.passwordErrorMsg = 'Поле обязательно для заполнения';
                                 return widget.passwordErrorMsg;
                               }
+                              return null;
                             },
                             errorMsg: widget.passwordErrorMsg,
                           ),
@@ -137,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(height: 10),
+                          kHorizontalSizedBoxDivider,
                           CustomButton(
                             onPressed: (){
                               Navigator.push( context, MaterialPageRoute(
@@ -148,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white,
                             textColor: Colors.black,
                           ),
-                          SizedBox(height: 10),
+                          kHorizontalSizedBoxDivider,
                         ],
                       ),
                     ],

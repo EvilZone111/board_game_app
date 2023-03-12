@@ -39,7 +39,11 @@ class ApiService {
         'id': body['id']
       };
     }
-    return response;
+    var body = json.decode(response.body);
+    return {
+      'statusCode': response.statusCode,
+      'detail': body['detail']
+    };
   }
 
   //TODO: возвращается пароль, сделать чтоб возвращался хэш
@@ -267,7 +271,7 @@ class ApiService {
     final response = await http.get(
       Uri.parse('${urlPrefix}events/?'
         'game=${filters['game']}&'
-        'city_id=${filters['cityId']}&'
+        'city_id=${filters['cityId']??''}&'
         'date__gte=${filters['minDate']}&'
         'date__lte=${filters['maxDate']}&'
         'is_active=${filters['is_active']}/'

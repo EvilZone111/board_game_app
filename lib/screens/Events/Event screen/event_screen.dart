@@ -8,24 +8,17 @@ import 'package:board_game_app/screens/Events/Event%20screen/event_requests_scre
 import 'package:flutter/material.dart';
 import 'package:board_game_app/models/event_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../instruments/components/custom_alert_dialog.dart';
 import '../../../instruments/components/games/score_circle.dart';
 import '../../../instruments/constants.dart';
 import '../../../models/game_model.dart';
-import '../../../models/user_model.dart';
 import '../../Games/game_screen.dart';
 import '../../Profiles/profile_screen.dart';
 
 
-
-//TODO: удаление участников
-
 class EventPage extends StatefulWidget {
 
   late Event event;
-
-  // bool showSuccessMessage;
 
   EventPage({required this.event});
 
@@ -38,8 +31,6 @@ class _EventPageState extends State<EventPage> {
   final ApiService _apiService = ApiService();
 
   Future<Game>? futureGame;
-
-  // Future<List<User>>? futureParticipators;
 
   bool isMine=false;
 
@@ -124,6 +115,58 @@ class _EventPageState extends State<EventPage> {
               },
               text: 'Отправить',
               color: Colors.blue,
+              textColor: Colors.white,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteParticipator(int index) async {
+    var messageController = TextEditingController();
+    OutlineInputBorder borderStyle = const OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey, width: 2.0),
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    );
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          title: 'Удалить участника',
+          content: TextField(
+            controller: messageController,
+            maxLines: 3,
+            decoration: InputDecoration(
+              hintText: 'Сообщение участника',
+              hintStyle: const TextStyle(color: Colors.grey),
+              enabledBorder: borderStyle,
+              focusedBorder: borderStyle,
+              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            ),
+            style: kBlackTextStyle,
+          ),
+          actions: [
+            CustomButton(
+              // onPressed: () {
+              //   print(widget.event.participators![index].id);
+              // },
+              onPressed: () async {
+                var response = await _apiService.respondToRequest(
+                  widget.event.participators![index].id,
+                  widget.event.id,
+                  false,
+                  messageController.text,
+                );
+                if(response==200) {
+                  setState(() {
+                    Navigator.pop(context);
+                    widget.event.participators?.removeAt(index);
+                  });
+                }
+              },
+              text: 'Удалить',
+              color: Colors.red,
               textColor: Colors.white,
             ),
           ],
@@ -367,16 +410,38 @@ class _EventPageState extends State<EventPage> {
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        GestureDetector(
-                                          child: CircleAvatar(
-                                            radius: 70.0,
-                                            backgroundImage: getProfilePicture(user.profilePicture),
-                                          ),
-                                          onTap: (){
-                                            Navigator.push( context, MaterialPageRoute(
-                                                builder: (context) => ProfilePage(userId: user.id!,))
-                                            );
-                                          },
+                                        Stack(
+                                          children: [
+                                            GestureDetector(
+                                              child: CircleAvatar(
+                                                radius: 70.0,
+                                                backgroundImage: getProfilePicture(user.profilePicture),
+                                              ),
+                                              onTap: (){
+                                                Navigator.push( context, MaterialPageRoute(
+                                                    builder: (context) => ProfilePage(userId: user.id!,))
+                                                );
+                                              },
+                                            ),
+                                            if(index!=0 && isMine)
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: GestureDetector(
+                                                  child: CircleAvatar(
+                                                    backgroundColor: Colors.red,
+                                                    child: IconButton(
+                                                      icon: const Icon(
+                                                        Icons.close,
+                                                      ),
+                                                      onPressed: () {
+                                                        deleteParticipator(index);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
                                         ),
                                         kHorizontalSizedBoxDivider,
                                         Text(
@@ -442,10 +507,17 @@ class _EventPageState extends State<EventPage> {
                   },
                 ) :
                 CustomButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => EventRequestsScreen(eventId: widget.event.id!)
+                  onPressed: () async {
+                    var participators = await Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => EventRequestsScreen(
+                        eventId: widget.event.id!,
+                        participators: widget.event.participators!,
+                        maxPlayers: widget.event.maxPlayers,
+                      ),
                     ));
+                    setState((){
+                      event.participators=participators;
+                    });
                   },
                   text: 'Посмотреть заявки на участие',
                   color: Colors.blue,

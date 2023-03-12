@@ -54,7 +54,6 @@ android {
         multiDexEnabled true
         //TODO: Parameter specified as non-null is null: method com.android.build.gradle.internal.dsl.BaseFlavor.buildConfigField, parameter value
         buildConfigField "String", "YANDEX_API_KEY", localProperties['yandexApiKey']
-        buildConfigField "String", "VK_API_KEY",localProperties['citySearchApiKey']
     }
 
     buildTypes {

@@ -12,6 +12,11 @@ const kGreyTexStyle = TextStyle(
   fontSize: 17,
 );
 
+const kBlackTextStyle = TextStyle(
+    fontSize: 17,
+    color: Colors.black
+);
+
 const kBigTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 20.0,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:board_game_app/instruments/helpers.dart';
 import 'package:board_game_app/models/participation_request_model.dart';
 import 'package:http/http.dart' as http;
@@ -200,8 +201,9 @@ class ApiService {
     return User.fromJson(responseData);
   }
 
+  //TODO: валидация по токену
   //обновление информации о пользователе
-  Future<dynamic> updateUserInfo([birthDate, sex, bio, profilePicture]) async{
+  Future<dynamic> updateUserInfo([birthDate, sex, bio]) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? id = prefs.getInt('id');
     final response = await http.patch(Uri.parse('${urlPrefix}profiles/$id/'),
@@ -212,7 +214,6 @@ class ApiService {
         'date_of_birth': birthDate,
         'sex': sex==null ? sex : 'U',
         'bio': bio,
-        'profilePicture': profilePicture,
       }),
     );
     if (response.statusCode == 200) {
@@ -224,6 +225,23 @@ class ApiService {
     else {
       return json.decode(utf8.decode(response.bodyBytes));
     }
+  }
+
+  //загрузка фото профиля
+  Future<dynamic> uploadPfp(File profilePicture) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+    var request = http.MultipartRequest(
+      'PATCH', Uri.parse('${urlPrefix}profiles/$id/'),
+
+    );
+    Map<String,String> headers={
+      "Content-type": "multipart/form-data"
+    };
+    request.files.add(await http.MultipartFile.fromPath('profilePicture', profilePicture.path));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    return response.statusCode;
   }
 
   //создание мероприятия

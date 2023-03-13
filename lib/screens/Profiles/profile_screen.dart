@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:board_game_app/instruments/constants.dart';
 import 'package:board_game_app/screens/Profiles/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../instruments/api.dart';
 import '../../instruments/helpers.dart';
 import '../../models/user_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   int userId;
@@ -19,14 +21,13 @@ class ProfilePage extends StatefulWidget {
 //TODO: профиль
 
 class _ProfilePageState extends State<ProfilePage> {
-
   final ApiService _apiService = ApiService();
   late Future<User> user;
-  // late Future<String> appBarText;
   String appBarText = 'Загрузка...';
   double circleRadius=60.0;
   double padding = 30;
   bool isMine=false;
+  late ImageProvider profilePicture;
 
   @override
   void initState(){
@@ -36,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.then((val) {
         setState(() {
           appBarText = '${val.firstName} ${val.lastName}';
+          profilePicture = getProfilePicture(val.profilePicture);
         });
       });
     });
@@ -48,15 +50,26 @@ class _ProfilePageState extends State<ProfilePage> {
     return _apiService.getUserInfo(widget.userId);
   }
 
+  Future<File?> getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image!=null) {
+      File file = File(image.path);
+      return file;
+    }
+    return null;
+  }
 
 
 
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-          appBarText,
-          style: kAppBarTextStyle,
+            appBarText,
+            style: kAppBarTextStyle,
           ),
           actions: <Widget>[
             if(isMine)
@@ -88,7 +101,6 @@ class _ProfilePageState extends State<ProfilePage> {
             return Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
-                //TODO: загрузка фото
                 SizedBox(
                   height: 70+padding,
                   width: double.infinity,
@@ -128,10 +140,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: padding),
-                  child: CircleAvatar(
-                    radius: circleRadius,
-                    backgroundImage: getProfilePicture(user.profilePicture),
-                    //backgroundImage: user.profilePicture==null ? const AssetImage('assets/images/blank_pfp.png') as ImageProvider : NetworkImage(user.profilePicture),
+                  child: GestureDetector(
+                    onTap: () async {
+                      if(isMine) {
+                        File? image = await getImage();
+                        if(image!=null) {
+                          var response = await _apiService.uploadPfp(image);
+                          if(response==200){
+                            setState(() {
+                              profilePicture = FileImage(image);
+                            });
+                          }
+                        }
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: circleRadius,
+                      backgroundImage: profilePicture,
+                    ),
                   ),
                 ),
                 // Container(

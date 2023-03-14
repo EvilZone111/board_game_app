@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 import '../../instruments/api.dart';
 import '../../instruments/components/custom_button.dart';
 import '../../instruments/components/games/score_card.dart';
-import '../../instruments/components/games/score_circle.dart';
 import '../../instruments/constants.dart';
 import '../../models/game_model.dart';
 
 class GamePage extends StatefulWidget {
   final Game game;
-  // late Image image='';
 
   GamePage({required this.game});
 
@@ -212,10 +210,11 @@ class _GamePageState extends State<GamePage> {
                 onTap: (){
                   Navigator.push( context, MaterialPageRoute(
                       builder: (context) => GameFullDescriptionPage(
-                        description: game.description!))
+                        description: game.description!,
+                        bggUrl: game.bggUrl,
+                      ))
                   );
                 },
-                //TODO: выводить "читать полное описание" только если текст не влез
                 child: Row(
                   children: const [
                     Text(

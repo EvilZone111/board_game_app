@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:board_game_app/instruments/constants.dart';
+import 'package:board_game_app/screens/Profiles/additional_info_popup_screen.dart';
 import 'package:board_game_app/screens/Profiles/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -115,27 +116,141 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
-                      color: kDefaultBackgroundColor,
+                      color: Colors.grey,
                     ),
                     width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsets.all(circleRadius+20),
-                      child: Column(
-                        children: [
-                          Text(
-                            '${user.firstName} ${user.lastName}',
-                            style: kHeavyTextStyle,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: kDefaultBackgroundColor,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // if (user.sex!=null)
-                              //   Text('a'),
-                            ],
+                          child: Padding(
+                            padding: EdgeInsets.only(top: circleRadius+10, bottom: 10),
+                            child: GestureDetector(
+                              onTap: () {
+                                //TODO: открыть доп инфу на клик
+                                showModalBottomSheet<Map<String, dynamic>>(
+                                  context: context,
+                                  useRootNavigator: true,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30),
+                                    ),
+                                  ),
+                                  builder: (_) {
+                                    return AdditionalInfoPopupPage(user: user);
+                                  },
+                                );
+                              },
+                              behavior: HitTestBehavior.opaque,
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '${user.firstName} ${user.lastName}',
+                                      style: kHeavyTextStyle,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on_outlined,
+                                          size: 20,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 5,),
+                                        Text(
+                                          user.city,
+                                          style: kGreyTextStyle,
+                                        ),
+                                        const SizedBox(width: 10,),
+                                        const Icon(
+                                          Icons.info_outline,
+                                          size: 20,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 5,),
+                                        const Text(
+                                          'Подробнее',
+                                          style: kGreyTextStyle,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        kHorizontalSizedBoxDivider,
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: kDefaultBackgroundColor,
+                          ),
+                          //TODO: френдлист
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              '31 друг',
+                              style: kTextStyle,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // if (user.sex!=null)
+                            //   Text('a'),
+                          ],
+                        ),
+                      ],
                     ),
+                    // child: Padding(
+                    //   padding: EdgeInsets.only(top: circleRadius+20),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Center(
+                    //         child: Text(
+                    //           '${user.firstName} ${user.lastName}',
+                    //           style: kHeavyTextStyle,
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         width: double.infinity,
+                    //         decoration: BoxDecoration(
+                    //           border: Border.all(
+                    //             color: Colors.black,
+                    //           ),
+                    //           borderRadius: BorderRadius.circular(15.0),
+                    //           color: kDefaultBackgroundColor,
+                    //         ),
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.all(15.0),
+                    //           child: Text(
+                    //             '31 друг',
+                    //             style: kTextStyle,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           // if (user.sex!=null)
+                    //           //   Text('a'),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ),
                 ),
                 Padding(
@@ -160,29 +275,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                // Container(
-                //   width: circleRadius,
-                //   height: circleRadius,
-                //   decoration: BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     color: Colors.white,
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: Colors.black26,
-                //         blurRadius: 8.0,
-                //         offset: Offset(0.0, 5.0),
-                //       ),
-                //     ],
-                //   ),
-                //   child: Padding(
-                //     padding: EdgeInsets.all(4.0),
-                //     child: Center(
-                //       child: CircleAvatar(
-                //         backgroundImage: NetworkImage(user.profilePicture), /// replace your image with the Icon
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             );
           }

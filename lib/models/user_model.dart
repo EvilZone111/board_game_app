@@ -11,6 +11,7 @@ class User {
   int cityId;
   String sex;
   String? profilePicture;
+  String? dateOfBirth;
 
   User({
     this.id,
@@ -20,7 +21,8 @@ class User {
     required this.city,
     required this.cityId,
     required this.sex,
-    this.profilePicture
+    this.profilePicture,
+    this.dateOfBirth,
   });
 
   factory User.fromJson(Map<String, dynamic> json){
@@ -33,7 +35,8 @@ class User {
       cityId: json['city_id'],
       sex: json['sex'],
       // profilePicture: json['profilePicture'] ?? 'assets/images/blank_pfp.png',
-      profilePicture: json['profilePicture']
+      profilePicture: json['profilePicture'],
+      dateOfBirth: json['date_of_birth'],
     );
   }
 

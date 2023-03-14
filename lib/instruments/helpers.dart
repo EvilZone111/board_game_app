@@ -95,3 +95,22 @@ ImageProvider getProfilePicture(String? picture){
   }
   return NetworkImage(picture);
 }
+
+String getFormattedDate(String date){
+  List<String> months = [
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Мая',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Октября',
+    'Ноября',
+    'Декабря'
+  ];
+  List<String> dateParts=date.split('-');
+  return '${dateParts[2][0]=='0'? dateParts[2][1] : dateParts[0]} ${months[int.parse(dateParts[1])-1]} ${dateParts[0]}';
+}

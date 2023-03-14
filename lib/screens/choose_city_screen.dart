@@ -54,7 +54,7 @@ class _ChooseCityPageState extends State<ChooseCityPage> {
                 if(city['additional']!=null)
                   Text(
                     city['additional'],
-                    style: kGreyTexStyle,
+                    style: kGreyTextStyle,
                   ),
               ],
             ),

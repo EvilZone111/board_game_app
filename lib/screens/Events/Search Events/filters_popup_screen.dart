@@ -50,7 +50,6 @@ class _FiltersPopupPageState extends State<FiltersPopupPage> {
         )
     );
     if(result!=null) {
-      print(result);
       setState(() {
         _cityController.text = result['city'];
         _cityId = result['id'];
@@ -133,10 +132,6 @@ class _FiltersPopupPageState extends State<FiltersPopupPage> {
                   ),
                 ),
               ),
-              // CustomFormField(
-              //   controller: _cityController,
-              //   textPlaceholder: 'Город',
-              // ),
               const SizedBox(height: 9,),
               const Text(
                 'Игра',

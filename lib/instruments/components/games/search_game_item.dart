@@ -51,7 +51,7 @@ class SearchGameItem extends StatelessWidget {
                         ),
                         Text(
                           game.yearPublished.toString(),
-                          style: kGreyTexStyle,
+                          style: kGreyTextStyle,
                         ),
                       ],
                     ),

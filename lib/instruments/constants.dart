@@ -7,7 +7,7 @@ const kTextStyle = TextStyle(
   fontSize: 17.0,
 );
 
-const kGreyTexStyle = TextStyle(
+const kGreyTextStyle = TextStyle(
   color: Colors.grey,
   fontSize: 17,
 );

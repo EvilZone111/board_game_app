@@ -4,7 +4,7 @@ import 'package:board_game_app/instruments/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../instruments/components/custom_form_field.dart';
-import '../../../instruments/components/custom_input_card.dart';
+import '../../../instruments/components/event_form_input_card.dart';
 import '../../choose_city_screen.dart';
 import '../choose_game_screen.dart';
 

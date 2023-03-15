@@ -118,7 +118,35 @@ class ApiService {
     myTransformer2.parse(response2.body);
     var data2 = myTransformer2.toGData();
     var responseData2 = json.decode(data2);
-    for(int i=0; i<responseData['items']['item'].length;i++){
+    for(int i=0; i<responseData2['items']['item'].length;i++){
+      Game singleGame = Game.fromJson(responseData2['items']['item'][i]);
+      games.add(singleGame);
+    }
+    return games;
+  }
+
+  Future<List<Game>> getRatedGames(userId) async {
+    token = await getToken();
+    final response = await http.get(Uri.parse('${urlPrefix}scores/user/$userId/'),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    var responseData = json.decode(response.body);
+    List<Game> games=[];
+    String ids='';
+    for(var item in responseData){
+      ids='$ids${item['game']},';
+    }
+    final response2 = await http.get(Uri.parse('https://boardgamegeek.com/xmlapi2/thing?id=$ids&stats=1'));
+    final myTransformer2 = Xml2Json();
+    myTransformer2.parse(response2.body);
+    var data2 = myTransformer2.toGData();
+    var responseData2 = json.decode(data2);
+    // print(responseData2);
+    for(int i=0; i<responseData2['items']['item'].length;i++){
       Game singleGame = Game.fromJson(responseData2['items']['item'][i]);
       games.add(singleGame);
     }
@@ -294,6 +322,32 @@ class ApiService {
         'date__lte=${filters['maxDate']}&'
         'is_active=${filters['is_active']}/'
       ),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    var responseData = json.decode(utf8.decode(response.bodyBytes));
+    List<Event> events=[];
+    for(var event in responseData){
+      User organizer = await getUserInfo(event['organizer']);
+      List<User> participators = await getEventParticipators(event['id']);
+      participators.insert(0, organizer);
+      Event singleEvent = Event.fromJson(event);
+      singleEvent.participators = participators;
+      events.add(singleEvent);
+    }
+    if(events.isEmpty){
+      return null;
+    }
+    return events;
+  }
+
+  Future<List<Event>?> getUserEvents(userId) async{
+    token = await getToken();
+    final response = await http.get(
+      Uri.parse('${urlPrefix}events/with_user/$userId/'),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

@@ -1,6 +1,6 @@
 import 'package:board_game_app/instruments/components/custom_button.dart';
 import 'package:board_game_app/instruments/components/custom_form_field.dart';
-import 'package:board_game_app/instruments/components/custom_input_card.dart';
+import 'package:board_game_app/instruments/components/event_form_input_card.dart';
 import 'package:board_game_app/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

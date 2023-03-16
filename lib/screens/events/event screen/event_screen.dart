@@ -363,9 +363,10 @@ class _EventPageState extends State<EventPage> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(right: 10, bottom: 10),
                                                 child: ScoreCircle(
-                                                    gameScore: gameScore,
-                                                    radius: 25,
-                                                    fontSize: 20
+                                                  gameScore: gameScore,
+                                                  radius: 25,
+                                                  fontSize: 20,
+                                                  isUserScore: false,
                                                 ),
                                               ),
                                             ),

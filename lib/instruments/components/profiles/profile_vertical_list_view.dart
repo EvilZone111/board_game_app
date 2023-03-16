@@ -33,7 +33,6 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
   @override
   Widget build(BuildContext context) {
     return ProfileCard(
-      height: 254,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,25 +41,28 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
             style: kBigTextStyle,
           ),
           divider,
-          SizedBox(
-            height: 185,
-            child: FutureBuilder(
-              future: widget.future,
-              builder: (BuildContext ctx, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  if(snapshot.data==null){
-                    return Center(
+          FutureBuilder(
+            future: widget.future,
+            builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if(snapshot.data==null){
+                  return SizedBox(
+                    height: 50,
+                    child: Center(
                       child: Text(
                         widget.listIsEmptyText,
                         style: kTextStyle,
                       ),
-                    );
-                  } else {
-                    return Column(
+                    ),
+                  );
+                } else {
+                  return SizedBox(
+                    height: 185,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
@@ -105,11 +107,11 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
                           ),
                         ),
                       ],
-                    );
-                  }
+                    ),
+                  );
                 }
-              },
-            ),
+              }
+            },
           ),
           // divider,
           // GestureDetector(

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:html_character_entities/html_character_entities.dart';
 
@@ -24,6 +23,8 @@ class Game {
   // int usersScored;
   final String bggUrl;
 
+  int? currentUserScore;
+
   Game({
     required this.id,
     required this.thumbnail,
@@ -42,6 +43,8 @@ class Game {
     required this.bggRating,
     required this.bggUsersRated,
     required this.bggUrl,
+
+    this.currentUserScore,
   });
 
   factory Game.fromJson(Map<String, dynamic> json){

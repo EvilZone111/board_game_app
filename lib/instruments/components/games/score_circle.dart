@@ -7,16 +7,21 @@ class ScoreCircle extends StatelessWidget {
   Color scoreCircleColor=Colors.grey;
   double radius;
   double fontSize;
+  bool isUserScore;
 
 
-  ScoreCircle({required this.gameScore, this.radius=20, this.fontSize=17}){
-    // print(gameScore);
-    if(gameScore!=0.0) {
-      stringScore =gameScore.toStringAsFixed(1);
-      scoreCircleColor=getScoreColor(gameScore);
-    } else {
-      stringScore = '—';
-    }
+  ScoreCircle({required this.gameScore, this.radius=20, this.fontSize=17, required this.isUserScore}){
+
+      if (gameScore != 0.0) {
+        if(isUserScore){
+          stringScore = gameScore.toStringAsFixed(0);
+        } else {
+          stringScore = gameScore.toStringAsFixed(1);
+        }
+        scoreCircleColor = getScoreColor(gameScore);
+      } else {
+        stringScore = '—';
+      }
   }
   @override
   Widget build(BuildContext context) {

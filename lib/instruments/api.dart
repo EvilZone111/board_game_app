@@ -5,7 +5,7 @@ import 'package:board_game_app/instruments/helpers.dart';
 import 'package:board_game_app/models/participation_request_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/app_mean_game_score.dart';
+import '../models/app_mean_game_score_model.dart';
 import '../models/game_model.dart';
 import '../models/user_model.dart';
 import 'constants.dart';
@@ -148,6 +148,7 @@ class ApiService {
     // print(responseData2);
     for(int i=0; i<responseData2['items']['item'].length;i++){
       Game singleGame = Game.fromJson(responseData2['items']['item'][i]);
+      singleGame.currentUserScore = responseData[i]['score'];
       games.add(singleGame);
     }
     return games;

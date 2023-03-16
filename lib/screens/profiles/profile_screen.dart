@@ -241,6 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       onTap: (){
                                         goToGamePage(game);
                                       },
+                                      userScore: game.currentUserScore,
                                     );
                                   },
                                 ),

@@ -1,11 +1,8 @@
 import 'package:board_game_app/instruments/constants.dart';
 import 'package:board_game_app/screens/Events/Create%20Event/create_event_screen.dart';
 import 'package:board_game_app/screens/Events/Search%20Events/search_events_screen.dart';
-import 'package:board_game_app/screens/Games/search_games_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../../instruments/components/custom_button.dart';
-import 'event_form.dart';
 
 class MainEventsPage extends StatefulWidget {
   const MainEventsPage({Key? key}) : super(key: key);

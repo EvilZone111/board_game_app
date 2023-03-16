@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:board_game_app/instruments/components/games/list_game_item.dart';
 import 'package:board_game_app/instruments/components/profiles/profile_card.dart';
+import 'package:board_game_app/instruments/components/profiles/show_all_layout.dart';
 import 'package:board_game_app/instruments/constants.dart';
 import 'package:board_game_app/screens/Profiles/additional_info_popup_screen.dart';
 import 'package:board_game_app/screens/Profiles/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../instruments/api.dart';
+import '../../instruments/components/events/list_event_item.dart';
 import '../../instruments/components/profiles/profile_vertical_list_view.dart';
 import '../../instruments/helpers.dart';
 import '../../models/event_model.dart';
@@ -73,7 +76,19 @@ class _ProfilePageState extends State<ProfilePage> {
     return null;
   }
 
+  void goToGamePage(game){
+    FocusManager.instance.primaryFocus?.unfocus();
+    Navigator.push( context, MaterialPageRoute(
+        builder: (context) => GamePage(game: game)
+    ));
+  }
 
+  void goToEventPage(event){
+    FocusManager.instance.primaryFocus?.unfocus();
+    Navigator.push( context, MaterialPageRoute(
+        builder: (context) => EventPage(event: event)
+    ));
+  }
 
 
   @override
@@ -96,7 +111,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.push( context, MaterialPageRoute(
                         builder: (context) => SettingsPage())
                     );
-                    _apiService.searchCity('Уфа');
                   },
                 ),
               ),
@@ -213,18 +227,36 @@ class _ProfilePageState extends State<ProfilePage> {
                           ProfileVerticalListView(
                             future: games,
                             title: 'Игры пользователя',
-                            itemTileHeight: 150,
-                            showAllCallback: (){
-                              //TODO: страница игр
+                            listIsEmptyText: '${user.firstName} ${user.lastName} пока не оценил ни одной игры',
+                            itemTileHeight: 190,
+                            goToShowAll: (gameList){
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              Navigator.push( context, MaterialPageRoute(
+                                builder: (context) => ShowAllPageLayout(
+                                  items: gameList,
+                                  appBarText: 'Игры',
+                                  buildItem: (game, index){
+                                    return ListGameItem(
+                                      game: game,
+                                      onTap: (){
+                                        goToGamePage(game);
+                                      },
+                                    );
+                                  },
+                                ),
+                              ));
                             },
                             itemWidget: (game){
                               return GestureDetector(
-                                onTap: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  Navigator.push( context, MaterialPageRoute(
-                                      builder: (context) => GamePage(game: game,)
-                                  ));
+                                onTap: (){
+                                  goToGamePage(game);
                                 },
+                                // onTap: () {
+                                //   FocusManager.instance.primaryFocus?.unfocus();
+                                //   Navigator.push( context, MaterialPageRoute(
+                                //       builder: (context) => GamePage(game: game,)
+                                //   ));
+                                // },
                                 child: SizedBox(
                                   width: 100,
                                   child: Column(
@@ -251,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           maxLines: 2,
                                           // overflow: ,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -262,17 +294,28 @@ class _ProfilePageState extends State<ProfilePage> {
                             future: events,
                             title: 'Мероприятия пользователя',
                             itemTileHeight: 150,
-                            showAllCallback: (){
-                              //TODO: страница мероприятий
-                              print('a');
+                            listIsEmptyText: '${user.firstName} ${user.lastName} не зарегестрирован на мероприятия',
+                            goToShowAll: (eventList){
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              Navigator.push( context, MaterialPageRoute(
+                                  builder: (context) => ShowAllPageLayout(
+                                    items: eventList,
+                                    appBarText: 'Мероприятия',
+                                    buildItem: (event, index){
+                                      return ListEventItem(
+                                        event: event,
+                                        onTap: (){
+                                          goToEventPage(event);
+                                        },
+                                      );
+                                    },
+                                  )
+                              ));
                             },
                             itemWidget: (event){
                               return GestureDetector(
                                 onTap: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  Navigator.push( context, MaterialPageRoute(
-                                      builder: (context) => EventPage(event: event,)
-                                  ));
+                                  goToEventPage(event);
                                 },
                                 child: SizedBox(
                                   width: 100,

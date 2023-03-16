@@ -3,7 +3,7 @@ import 'package:board_game_app/models/game_model.dart';
 import 'package:flutter/material.dart';
 import '../../instruments/api.dart';
 import '../../instruments/components/custom_search_field.dart';
-import '../../instruments/components/games/search_game_item.dart';
+import '../../instruments/components/games/list_game_item.dart';
 import '../../instruments/components/search_page_layout.dart';
 
 import 'game_screen.dart';
@@ -41,10 +41,7 @@ class _SearchGamesPageState extends State<SearchGamesPage> {
   }
 
   Widget buildItem(game, int index){
-    // double gameScore;
-    // game.score==0.0 ? gameScore = game.bggRating : gameScore = game.score;
-    // double tileHeight = MediaQuery.of(context).size.width/7*2*0.7;
-    return SearchGameItem(
+    return ListGameItem(
       game: game,
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();

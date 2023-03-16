@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../instruments/api.dart';
 import '../../../models/event_model.dart';
-import '../Event screen/event_screen.dart';
 
 class EditEventPage extends StatelessWidget {
 

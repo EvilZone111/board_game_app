@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import '../../../models/game_model.dart';
 import '../../constants.dart';
 
-class SearchGameItem extends StatelessWidget {
+class ListGameItem extends StatelessWidget {
 
   Game game;
   VoidCallback onTap;
 
-  SearchGameItem({required this.game, required this.onTap});
+  ListGameItem({required this.game, required this.onTap});
 
 
   @override

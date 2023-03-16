@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../instruments/api.dart';
 import '../../instruments/components/custom_search_field.dart';
-import '../../instruments/components/games/search_game_item.dart';
+import '../../instruments/components/games/list_game_item.dart';
 import '../../instruments/components/search_page_layout.dart';
 import '../../models/game_model.dart';
 
@@ -32,7 +32,7 @@ class _ChooseGamePageState extends State<ChooseGamePage> {
   }
 
   Widget buildItem(game, int index) {
-    return SearchGameItem(
+    return ListGameItem(
       game: game,
       onTap: () {
         Navigator.pop(context, game);

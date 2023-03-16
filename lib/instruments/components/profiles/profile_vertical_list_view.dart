@@ -6,15 +6,17 @@ class ProfileVerticalListView extends StatefulWidget {
 
   Future future;
   String title;
+  String listIsEmptyText;
   double itemTileHeight;
-  VoidCallback showAllCallback;
+  void Function(List) goToShowAll;
   Widget Function(dynamic) itemWidget;
 
   ProfileVerticalListView({
     required this.future,
     required this.title,
+    required this.listIsEmptyText,
     required this.itemTileHeight,
-    required this.showAllCallback,
+    required this.goToShowAll,
     required this.itemWidget
   });
 
@@ -31,6 +33,7 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
   @override
   Widget build(BuildContext context) {
     return ProfileCard(
+      height: 254,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -40,7 +43,7 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
           ),
           divider,
           SizedBox(
-            height: widget.itemTileHeight,
+            height: 185,
             child: FutureBuilder(
               future: widget.future,
               builder: (BuildContext ctx, AsyncSnapshot snapshot) {
@@ -49,43 +52,86 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data.length,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(width: 10,);
-                    },
-                    itemBuilder: (context, index) {
-                      var item = snapshot.data[index];
-                      return widget.itemWidget(item);
-                    },
-                  );
+                  if(snapshot.data==null){
+                    return Center(
+                      child: Text(
+                        widget.listIsEmptyText,
+                        style: kTextStyle,
+                      ),
+                    );
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 8,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data.length,
+                            separatorBuilder: (BuildContext context, int index) {
+                              return const SizedBox(width: 10,);
+                            },
+                            itemBuilder: (context, index) {
+                              var item = snapshot.data[index];
+                              return widget.itemWidget(item);
+                            },
+                          ),
+                        ),
+                        divider,
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: (){
+                              widget.goToShowAll(snapshot.data);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  'Показать все',
+                                  style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
                 }
               },
             ),
           ),
-          divider,
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: widget.showAllCallback,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Показать все',
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 15,
-                ),
-              ],
-            ),
-          ),
+          // divider,
+          // GestureDetector(
+          //   behavior: HitTestBehavior.translucent,
+          //   onTap: widget.showAllCallback,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: const [
+          //       Text(
+          //         'Показать все',
+          //         style: TextStyle(
+          //           fontSize: 17.0,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //       Icon(
+          //         Icons.arrow_forward_ios,
+          //         size: 15,
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

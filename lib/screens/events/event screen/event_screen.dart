@@ -1,6 +1,5 @@
 import 'package:board_game_app/instruments/api.dart';
 import 'package:board_game_app/instruments/components/custom_button.dart';
-import 'package:board_game_app/instruments/components/iconText.dart';
 import 'package:board_game_app/instruments/helpers.dart';
 import 'package:board_game_app/models/participation_request_model.dart';
 import 'package:board_game_app/screens/Events/Event%20screen/edit_event_screen.dart';
@@ -212,6 +211,32 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
+  Widget iconAndText({icon, text}){
+    return Container(
+      height: 60,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Icon(
+                icon,
+                size: kBigIconSize,
+              ),
+              kVerticalSizedBoxDivider,
+              Flexible(
+                child: Text(
+                  text,
+                  style: kEventPageTextStyle,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState(){
     super.initState();
@@ -360,17 +385,17 @@ class _EventPageState extends State<EventPage> {
                         },
                       ),
                       kWideHorizontalSizedBoxDivider,
-                      IconText(
+                      iconAndText(
                         icon: Icons.calendar_month,
                         text: '${event.getFormattedDate()} ${event.time.substring(0,5)}',
                       ),
                       kDivider,
-                      IconText(
+                      iconAndText(
                         icon: Icons.home,
                         text: event.address,
                       ),
                       kDivider,
-                      IconText(
+                      iconAndText(
                         icon: Icons.access_time,
                         text: '${event.minPlayTime}-${event.maxPlayTime} ${event.minutesRightCase()}',
                       ),

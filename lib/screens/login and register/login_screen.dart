@@ -1,5 +1,5 @@
 import 'package:board_game_app/instruments/api.dart';
-import 'package:board_game_app/screens/Login/registration_screen.dart';
+import 'package:board_game_app/screens/login and register/registration_screen.dart';
 import 'package:board_game_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 

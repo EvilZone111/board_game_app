@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:board_game_app/instruments/components/profile_card.dart';
+import 'package:board_game_app/instruments/components/profiles/profile_card.dart';
 import 'package:board_game_app/instruments/constants.dart';
 import 'package:board_game_app/screens/Profiles/additional_info_popup_screen.dart';
 import 'package:board_game_app/screens/Profiles/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../instruments/api.dart';
-import '../../instruments/components/profile_vertical_list_view.dart';
+import '../../instruments/components/profiles/profile_vertical_list_view.dart';
 import '../../instruments/helpers.dart';
 import '../../models/event_model.dart';
 import '../../models/game_model.dart';
@@ -129,8 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
-                        //TODO: подобрать цвет
-                        color: const Color(0xFFEFF1F3),
+                        color: Colors.white10,
                       ),
                       width: double.infinity,
                       // height: 1000,
@@ -204,6 +203,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           const SizedBox(height: 5,),
+                          //TODO: френдлист
                           ProfileCard(
                             content: Text(
                               '31 друг',

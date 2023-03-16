@@ -252,7 +252,7 @@ class _EventFormState extends State<EventForm> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 1,
                       text: 'Выберите игру',
                       childWidget: Hero(
@@ -274,7 +274,7 @@ class _EventFormState extends State<EventForm> {
                       ),
                     ),
                     kDivider,
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 2,
                       text: 'Введите ожидаемую длительность игры',
                       childWidget: Row(
@@ -301,7 +301,7 @@ class _EventFormState extends State<EventForm> {
                       ),
                     ),
                     kDivider,
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 3,
                       text: 'Введите число участников',
                       childWidget: Row(
@@ -327,7 +327,7 @@ class _EventFormState extends State<EventForm> {
                       ),
                     ),
                     kDivider,
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 4,
                       text: 'Выберите дату и время',
                       childWidget: Column(
@@ -379,7 +379,7 @@ class _EventFormState extends State<EventForm> {
                       ),
                     ),
                     kDivider,
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 5,
                       text: 'Укажите место проведения',
                       childWidget: Material(
@@ -408,7 +408,7 @@ class _EventFormState extends State<EventForm> {
                       ),
                     ),
                     kDivider,
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 6,
                       text: 'Введите описание мероприятия',
                       childWidget: CustomFormField(
@@ -418,7 +418,7 @@ class _EventFormState extends State<EventForm> {
                       ),
                     ),
                     kDivider,
-                    CustomInputCard(
+                    EventFormInputCard(
                       number: 7,
                       text: 'Введите название мероприятия',
                       childWidget: CustomFormField(

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 // import 'custom_search_field.dart';
 
-class CustomInputCard extends StatefulWidget {
+class EventFormInputCard extends StatefulWidget {
 
   int number;
   String text;
   Widget childWidget;
 
-  CustomInputCard({required this.number, required this.text, required this.childWidget});
+  EventFormInputCard({required this.number, required this.text, required this.childWidget});
 
   @override
-  State<CustomInputCard> createState() => _CustomInputCardState();
+  State<EventFormInputCard> createState() => _EventFormInputCardState();
 }
 
-class _CustomInputCardState extends State<CustomInputCard> {
+class _EventFormInputCardState extends State<EventFormInputCard> {
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -45,16 +45,15 @@ class AdditionalInfoPopupPage extends StatelessWidget {
               infoField(Icons.location_on_outlined, 'Город: ${user.city}'),
               kHorizontalSizedBoxDivider,
               if(user.dateOfBirth!=null)
-               infoField(
-                   Icons.cake_outlined,
-                   'День рождения: ${getFormattedDate(user.dateOfBirth!)}'
-               ),
+                infoField(
+                  Icons.cake_outlined,
+                  'День рождения: ${getFormattedDate(user.dateOfBirth!)}',
+                ),
               if(user.dateOfBirth!=null)
-               kHorizontalSizedBoxDivider,
+                kHorizontalSizedBoxDivider,
               infoField(
                 Icons.person,
-                'Пол: ${user.sex=='U' ? 'Не указан'
-                    : user.sex=='M' ?'Мужской' : 'Женский'
+                'Пол: ${user.sex=='U' ? 'Не указан' : user.sex=='M' ?'Мужской' : 'Женский'
                 }',
               ),
             ],

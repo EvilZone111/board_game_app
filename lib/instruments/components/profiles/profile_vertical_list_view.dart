@@ -1,4 +1,4 @@
-import 'package:board_game_app/instruments/components/profile_card.dart';
+import 'package:board_game_app/instruments/components/profiles/profile_card.dart';
 import 'package:board_game_app/instruments/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -24,14 +24,13 @@ class ProfileVerticalListView extends StatefulWidget {
 
 class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
 
-  static const devider = Divider(
+  static const divider = Divider(
     thickness: 2,
   );
 
   @override
   Widget build(BuildContext context) {
     return ProfileCard(
-
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,7 +38,7 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
             widget.title,
             style: kBigTextStyle,
           ),
-          devider,
+          divider,
           SizedBox(
             height: widget.itemTileHeight,
             child: FutureBuilder(
@@ -66,7 +65,7 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
               },
             ),
           ),
-          devider,
+          divider,
           GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: widget.showAllCallback,

@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:board_game_app/instruments/components/games/list_game_item.dart';
 import 'package:board_game_app/instruments/components/profiles/profile_card.dart';
 import 'package:board_game_app/instruments/components/profiles/show_all_layout.dart';
 import 'package:board_game_app/instruments/constants.dart';
+import 'package:board_game_app/models/friend_request_model.dart';
 import 'package:board_game_app/screens/Profiles/additional_info_popup_screen.dart';
 import 'package:board_game_app/screens/Profiles/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,14 +29,14 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-//TODO: профиль
+//TODO: уведомления
 
 class _ProfilePageState extends State<ProfilePage> {
   final ApiService _apiService = ApiService();
   late Future<User> user;
-  //TODO: протестить для случая с нулём оценок
   late Future<List<Game>> games;
   late Future<List<Event>?> events;
+  late Future<FriendRequest?> friendRequest;
   String appBarText = 'Загрузка...';
   double circleRadius=60.0;
   double padding = 30;
@@ -54,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
           profilePicture = getProfilePicture(val.profilePicture);
           games = _apiService.getRatedGames(val.id);
           events = _apiService.getUserEvents(val.id);
+          friendRequest = _apiService.getFriendshipStatus(val.id);
         });
       });
     });
@@ -88,6 +89,64 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.push( context, MaterialPageRoute(
         builder: (context) => EventPage(event: event)
     ));
+  }
+
+  Widget getFriendRequestButton(userId, FriendRequest? requestStatus){
+    VoidCallback onPressedCallback=(){};
+    Color buttonColor=Colors.grey;
+    String buttonText='';
+    IconData buttonIcon=Icons.person;
+
+    if(requestStatus==null){
+      onPressedCallback=() async { await _apiService.sendFriendRequest(userId); };
+      buttonColor = Colors.blue;
+      buttonText = 'Добавить в друзья';
+      buttonIcon = Icons.person_add_outlined;
+    }
+    //TODO: отмена заявки
+    else if (requestStatus.isAccepted==false){
+      buttonColor=Colors.grey;
+      buttonText='Отменить заявку';
+      buttonIcon = Icons.person;
+      //TODO: удаление из друзей
+    } else {
+      buttonColor = Colors.red;
+      buttonText = 'Удалить из друзей';
+      buttonIcon = Icons.person_off_outlined;
+    }
+    return TextButton(
+      onPressed: onPressedCallback,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(buttonColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+      child:Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              buttonIcon,
+              color: Colors.white,
+              size: 20,
+            ),
+            const SizedBox(width: 3),
+            Align(
+              child: Text(
+                buttonText,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
 
@@ -209,7 +268,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ],
                                       ),
-                                      //TODO: кнопка добавления в друзья
+                                      if(!isMine)
+                                        FutureBuilder(
+                                          future: friendRequest,
+                                          builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+                                            if (snapshot.connectionState != ConnectionState.done) {
+                                              return const Center(
+                                                child: CircularProgressIndicator(),
+                                              );
+                                            } else {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 8,
+                                                  right: 8,
+                                                  top: 10,
+                                                ),
+                                                child: getFriendRequestButton(user.id, snapshot.data),
+                                              );
+                                            }
+                                          },
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -252,12 +330,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 onTap: (){
                                   goToGamePage(game);
                                 },
-                                // onTap: () {
-                                //   FocusManager.instance.primaryFocus?.unfocus();
-                                //   Navigator.push( context, MaterialPageRoute(
-                                //       builder: (context) => GamePage(game: game,)
-                                //   ));
-                                // },
                                 child: SizedBox(
                                   width: 100,
                                   child: Column(

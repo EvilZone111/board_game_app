@@ -6,6 +6,7 @@ import 'package:board_game_app/models/participation_request_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_mean_game_score_model.dart';
+import '../models/friend_request_model.dart';
 import '../models/game_model.dart';
 import '../models/user_model.dart';
 import 'constants.dart';
@@ -506,5 +507,37 @@ class ApiService {
       return null;
     }
     return cities;
+  }
+
+  //получение статуса дружбы
+  Future<FriendRequest?> getFriendshipStatus(userId) async{
+    token = await getToken();
+    final response = await http.get(Uri.parse('${urlPrefix}friends/status/$userId/'),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if(response.statusCode==204) {
+      return null;
+    }
+    var responseData = json.decode(response.body);
+    // print(responseData);
+    return FriendRequest.fromJson(responseData);
+  }
+
+  //отправление заявки в друзья
+  Future<dynamic> sendFriendRequest(userId) async{
+    token = await getToken();
+    final response = await http.post(
+      Uri.parse('${urlPrefix}friends/add/$userId/'),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    return response.statusCode;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:board_game_app/instruments/api.dart';
-import 'package:board_game_app/screens/login and register/registration_screen.dart';
-import 'package:board_game_app/screens/home_screen.dart';
+import 'package:board_game_app/views/login and register/registration_screen.dart';
+import 'package:board_game_app/views/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../instruments/components/custom_button.dart';

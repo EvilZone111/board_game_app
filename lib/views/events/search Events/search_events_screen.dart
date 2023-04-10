@@ -1,7 +1,7 @@
 import 'package:board_game_app/instruments/components/events/list_event_item.dart';
 import 'package:board_game_app/instruments/components/search_page_layout.dart';
 import 'package:board_game_app/models/event_model.dart';
-import 'package:board_game_app/screens/Events/Search%20Events/filters_popup_screen.dart';
+import 'package:board_game_app/views/Events/Search%20Events/filters_popup_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../instruments/api.dart';
 import '../../../instruments/constants.dart';

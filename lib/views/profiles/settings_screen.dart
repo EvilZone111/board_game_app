@@ -1,6 +1,6 @@
 import 'package:board_game_app/instruments/components/custom_button.dart';
 import 'package:board_game_app/instruments/constants.dart';
-import 'package:board_game_app/screens/login and register/login_screen.dart';
+import 'package:board_game_app/views/login and register/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

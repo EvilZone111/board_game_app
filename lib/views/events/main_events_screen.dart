@@ -1,6 +1,6 @@
 import 'package:board_game_app/instruments/constants.dart';
-import 'package:board_game_app/screens/Events/Create%20Event/create_event_screen.dart';
-import 'package:board_game_app/screens/Events/Search%20Events/search_events_screen.dart';
+import 'package:board_game_app/views/Events/Create%20Event/create_event_screen.dart';
+import 'package:board_game_app/views/Events/Search%20Events/search_events_screen.dart';
 import 'package:flutter/material.dart';
 import '../../instruments/components/custom_button.dart';
 

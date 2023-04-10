@@ -1,6 +1,6 @@
 import 'package:board_game_app/instruments/helpers.dart';
-import 'package:board_game_app/screens/Games/game_full_description_screen.dart';
-import 'package:board_game_app/screens/Games/score_game_screen.dart';
+import 'package:board_game_app/views/Games/game_full_description_screen.dart';
+import 'package:board_game_app/views/Games/score_game_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../instruments/api.dart';

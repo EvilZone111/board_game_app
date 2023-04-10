@@ -1,4 +1,4 @@
-import 'package:board_game_app/screens/Events/event_form.dart';
+import 'package:board_game_app/views/Events/event_form.dart';
 import 'package:flutter/material.dart';
 
 import '../../../instruments/api.dart';

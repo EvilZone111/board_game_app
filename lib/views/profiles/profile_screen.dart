@@ -4,8 +4,8 @@ import 'package:board_game_app/instruments/components/profiles/profile_card.dart
 import 'package:board_game_app/instruments/components/profiles/show_all_layout.dart';
 import 'package:board_game_app/instruments/constants.dart';
 import 'package:board_game_app/models/friend_request_model.dart';
-import 'package:board_game_app/screens/Profiles/additional_info_popup_screen.dart';
-import 'package:board_game_app/screens/Profiles/settings_screen.dart';
+import 'package:board_game_app/views/Profiles/additional_info_popup_screen.dart';
+import 'package:board_game_app/views/Profiles/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../instruments/api.dart';

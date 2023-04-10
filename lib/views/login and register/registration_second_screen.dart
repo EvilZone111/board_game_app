@@ -1,4 +1,4 @@
-import 'package:board_game_app/screens/home_screen.dart';
+import 'package:board_game_app/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

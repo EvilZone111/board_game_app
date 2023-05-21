@@ -1,7 +1,9 @@
 import 'package:board_game_app/instruments/api.dart';
+import 'package:board_game_app/viewmodels/login%20and%20register/login_view_model.dart';
 import 'package:board_game_app/views/login and register/registration_screen.dart';
 import 'package:board_game_app/views/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../instruments/components/custom_button.dart';
 import '../../instruments/components/custom_form_field.dart';
@@ -52,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(

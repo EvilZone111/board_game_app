@@ -160,7 +160,8 @@ class _EventRequestsScreenState extends State<EventRequestsScreen> {
                           ),
                         );
                       } else {
-                        return ListView.builder(
+                        return ListView.separated(
+                          separatorBuilder: (BuildContext context, int index) => kDivider,
                           itemCount: snapshot.data.length,
                           itemBuilder: (ctx, index)
                           {
@@ -181,7 +182,7 @@ class _EventRequestsScreenState extends State<EventRequestsScreen> {
                                       children: [
                                         CircleAvatar(
                                           radius: 32.0,
-                                          backgroundImage: getProfilePicture(data.user.profilePicture),
+                                          backgroundImage: data.user.getProfilePicture(),
                                         ),
                                         const SizedBox(width: 20,),
                                         Padding(
@@ -236,7 +237,6 @@ class _EventRequestsScreenState extends State<EventRequestsScreen> {
                                     ),
                                   ],
                                 ),
-                                kDivider,
                               ],
                             );
                           },

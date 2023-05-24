@@ -38,28 +38,6 @@ class _MainEventsPageState extends State<MainEventsPage> {
               color: Colors.blue,
             ),
             kHorizontalSizedBoxDivider,
-            // kWideVerticalSizedBoxDivider,
-            // Row(
-            //   children: const [
-            //     Expanded(
-            //       child: Divider(
-            //         thickness: 3.0,
-            //         endIndent: 10.0,
-            //       ),
-            //     ),
-            //     Text(
-            //       "ИЛИ",
-            //       style: kTextStyle,
-            //     ),
-            //     Expanded(
-            //       child: Divider(
-            //         thickness: 3.0,
-            //         indent: 10.0,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // kWideVerticalSizedBoxDivider,
             CustomButton(
               onPressed: () {
                 Navigator.push( context, MaterialPageRoute(
@@ -73,14 +51,6 @@ class _MainEventsPageState extends State<MainEventsPage> {
           ],
         ),
       ),
-      // body: ElevatedButton(
-      //   onPressed: () {
-      //     Navigator.push( context, MaterialPageRoute(
-      //         builder: (context) => SearchGamesPage()
-      //     ));
-      //   },
-      //   child: Text('test'),
-      // ),
     );
   }
 }

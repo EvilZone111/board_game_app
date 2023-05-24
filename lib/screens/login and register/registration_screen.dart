@@ -50,9 +50,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
           builder: (context) => const ChooseCityPage(),
         )
     );
+    print(result);
     if(result!=null) {
       setState(() {
-        _cityController.text = result['toDisplay'];
+        _cityController.text = result['city'];
         _cityId = result['id'];
       });
     }
@@ -79,8 +80,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _emailController.text.toString(),
         _passwordController.text.toString(),
         _confirmPasswordController.text.toString(),
-        _lastNameController.text.toString(),
         _firstNameController.text.toString(),
+        _lastNameController.text.toString(),
         _cityController.text.toString(),
         _cityId,
       );
@@ -202,6 +203,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             suffixIcon: const Icon(
                               Icons.arrow_forward_ios,
                             ),
+                            errorMsg: 'Поле обязательно для заполнения',
                           ),
                         ],
                       ),

@@ -28,24 +28,9 @@ class _ShowAllPageLayoutState extends State<ShowAllPageLayout> {
           widget.appBarText,
           style: kAppBarTextStyle,
         ),
-        // actions: <Widget>[
-        //   if(isMine)
-        //     Padding(
-        //       padding: const EdgeInsets.only(right: 10.0),
-        //       child: IconButton(
-        //         icon: const Icon(Icons.settings,
-        //           size: 40.0,
-        //         ),
-        //         onPressed: () {
-        //           Navigator.push( context, MaterialPageRoute(
-        //               builder: (context) => SettingsPage())
-        //           );
-        //         },
-        //       ),
-        //     ),
-        // ],
       ),
-      body: ListView.builder(
+      body: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => kDivider,
         itemCount: widget.items.length,
         itemBuilder: (ctx, index)
         {

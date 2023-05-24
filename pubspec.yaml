@@ -51,6 +51,10 @@ dependencies:
   geolocator: ^9.0.2
   image_picker: ^0.8.7+1
   url_launcher: ^6.1.10
+  flutter_image_stack: ^0.0.6
+  connectivity: ^3.0.6
+  internet_connection_checker: ^1.0.0+1
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

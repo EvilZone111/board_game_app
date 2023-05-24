@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
@@ -24,6 +25,13 @@ class User {
     this.profilePicture,
     this.dateOfBirth,
   });
+
+  ImageProvider getProfilePicture(){
+    if(profilePicture==null){
+      return const AssetImage('assets/images/blank_pfp.png');
+    }
+    return NetworkImage(profilePicture!);
+  }
 
   factory User.fromJson(Map<String, dynamic> json){
     return User(

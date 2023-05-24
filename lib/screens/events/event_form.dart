@@ -276,7 +276,7 @@ class _EventFormState extends State<EventForm> {
                     kDivider,
                     EventFormInputCard(
                       number: 2,
-                      text: 'Введите ожидаемую длительность игры',
+                      text: 'Введите ожидаемую длительность игры (в минутах)',
                       childWidget: Row(
                         children: [
                           Flexible(
@@ -296,7 +296,6 @@ class _EventFormState extends State<EventForm> {
                               errorMsg: maxPlayTimeErrorMsg,
                             ),
                           ),
-                          TextInCard(text: ' минут'),
                         ],
                       ),
                     ),

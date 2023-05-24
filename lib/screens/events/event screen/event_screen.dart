@@ -441,7 +441,7 @@ class _EventPageState extends State<EventPage> {
                                             GestureDetector(
                                               child: CircleAvatar(
                                                 radius: 70.0,
-                                                backgroundImage: getProfilePicture(user.profilePicture),
+                                                backgroundImage: user.getProfilePicture(),
                                               ),
                                               onTap: (){
                                                 Navigator.push( context, MaterialPageRoute(

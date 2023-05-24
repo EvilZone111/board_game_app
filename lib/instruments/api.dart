@@ -81,7 +81,6 @@ class ApiService {
       prefs.setString('token', body['access']);
       prefs.setString('refresh_token', body['refresh']);
       prefs.setInt('id', body['id']);
-      print(loginResponse.statusCode);
       return loginResponse.statusCode;
     }
     else {
@@ -146,7 +145,6 @@ class ApiService {
     myTransformer2.parse(response2.body);
     var data2 = myTransformer2.toGData();
     var responseData2 = json.decode(data2);
-    // print(responseData2);
     for(int i=0; i<responseData2['items']['item'].length;i++){
       Game singleGame = Game.fromJson(responseData2['items']['item'][i]);
       singleGame.currentUserScore = responseData[i]['score'];
@@ -523,7 +521,6 @@ class ApiService {
       return null;
     }
     var responseData = json.decode(response.body);
-    // print(responseData);
     return FriendRequest.fromJson(responseData);
   }
 
@@ -539,5 +536,27 @@ class ApiService {
       },
     );
     return response.statusCode;
+  }
+
+  Future<List<User>?> getFriendList(userId) async {
+    token = await getToken();
+    final response = await http.get(Uri.parse('${urlPrefix}profiles/friendlist/$userId/'),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+    List<User> friends = [];
+    if (response.statusCode == 204) {
+      return friends;
+    }
+    var responseData = json.decode(utf8.decode(response.bodyBytes));
+    for (var user in responseData) {
+      User friend = User.fromJson(user);
+      friend.profilePicture = friend.profilePicture==null ? null : 'http://10.0.2.2:8000${friend.profilePicture}';
+      friends.add(friend);
+    }
+    return friends;
   }
 }

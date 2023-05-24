@@ -89,12 +89,7 @@ enum RequestStatus {notSend, accepted, notAccepted}
 
 enum RequestResponse {accept, decline}
 
-ImageProvider getProfilePicture(String? picture){
-  if(picture==null){
-    return const AssetImage('assets/images/blank_pfp.png');
-  }
-  return NetworkImage(picture);
-}
+
 
 String getFormattedDate(String date){
   List<String> months = [
@@ -113,4 +108,21 @@ String getFormattedDate(String date){
   ];
   List<String> dateParts=date.split('-');
   return '${dateParts[2][0]=='0'? dateParts[2][1] : dateParts[0]} ${months[int.parse(dateParts[1])-1]} ${dateParts[0]}';
+}
+
+String friendsRightCase(int friendsNumber){
+  int lastDigit = friendsNumber%10;
+  if(friendsNumber%100~/10==1) {
+    return 'друзей';
+  }
+  else {
+    if (lastDigit == 0 || lastDigit == 5 || lastDigit == 6 || lastDigit == 7 ||
+        lastDigit == 8 || lastDigit == 9) {
+      return 'друзей';
+    }
+    if (lastDigit == 2 || lastDigit == 3 || lastDigit == 4) {
+      return 'друга';
+    }
+    return 'друг';
+  }
 }

@@ -52,11 +52,9 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
                 if(snapshot.data==null){
                   return SizedBox(
                     height: 50,
-                    child: Center(
-                      child: Text(
-                        widget.listIsEmptyText,
-                        style: kTextStyle,
-                      ),
+                    child: Text(
+                      widget.listIsEmptyText,
+                      style: kTextStyle,
                     ),
                   );
                 } else {
@@ -113,27 +111,6 @@ class _ProfileVerticalListViewState extends State<ProfileVerticalListView> {
               }
             },
           ),
-          // divider,
-          // GestureDetector(
-          //   behavior: HitTestBehavior.translucent,
-          //   onTap: widget.showAllCallback,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: const [
-          //       Text(
-          //         'Показать все',
-          //         style: TextStyle(
-          //           fontSize: 17.0,
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //       ),
-          //       Icon(
-          //         Icons.arrow_forward_ios,
-          //         size: 15,
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

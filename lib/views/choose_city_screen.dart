@@ -39,7 +39,6 @@ class _ChooseCityPageState extends State<ChooseCityPage> {
           behavior: HitTestBehavior.translucent,
           onTap: (){
             Navigator.pop(context, city);
-            // print(snapshot.data.items![index].geometry[0].point);
           },
           child: Padding(
             padding: const EdgeInsets.only(left: 40.0, right: 8.0, top: 10.0),

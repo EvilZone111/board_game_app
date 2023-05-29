@@ -1,6 +1,6 @@
 import 'package:board_game_app/instruments/components/custom_button.dart';
 import 'package:board_game_app/instruments/constants.dart';
-import 'package:board_game_app/views/login and register/login_screen.dart';
+import 'package:board_game_app/views/login_and_register/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Navigator.of(context, rootNavigator: true).pop();
                 Navigator.of(context, rootNavigator: true).pushReplacement(
                   MaterialPageRoute(
-                      builder: (context) => LoginPage()
+                      builder: (context) => LoginView()
                   ),
                 );
               },

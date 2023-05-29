@@ -2,6 +2,9 @@ import 'package:board_game_app/views/Events/main_events_screen.dart';
 import 'package:board_game_app/views/Games/search_games_screen.dart';
 import 'package:board_game_app/views/Profiles/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../view_models/login_and_register/login_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   int userId;
@@ -44,44 +47,49 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final isFirstRouteInCurrentTab =
-        !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
-        return isFirstRouteInCurrentTab;
-      },
-      child: Scaffold(
-        // body: IndexedStack(
-        //   index: _selectedIndex,
-        //   children: _pageOptions,
-        // ),
-        body: Stack(
-            children: [
-              _buildOffstageNavigator(0),
-              _buildOffstageNavigator(1),
-              _buildOffstageNavigator(2),
-            ]
-        ),
-        // body: _pageOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.event),
-                label: 'События'
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.games),
-              label: 'Игры',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Профиль',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-          onTap: onTapped,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+      ],
+      child: WillPopScope(
+        onWillPop: () async {
+          final isFirstRouteInCurrentTab =
+          !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
+          return isFirstRouteInCurrentTab;
+        },
+        child: Scaffold(
+          // body: IndexedStack(
+          //   index: _selectedIndex,
+          //   children: _pageOptions,
+          // ),
+          body: Stack(
+              children: [
+                _buildOffstageNavigator(0),
+                _buildOffstageNavigator(1),
+                _buildOffstageNavigator(2),
+              ]
+          ),
+          // body: _pageOptions.elementAt(_selectedIndex),
+          bottomNavigationBar: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.event),
+                  label: 'События'
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.games),
+                label: 'Игры',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Профиль',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey,
+            onTap: onTapped,
+          ),
         ),
       ),
     );

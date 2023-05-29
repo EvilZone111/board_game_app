@@ -4,6 +4,7 @@ import 'package:board_game_app/instruments/components/event_form_input_card.dart
 import 'package:board_game_app/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../instruments/helpers.dart';
 import 'Create Event/map_screen.dart';
 import '../../instruments/components/custom_search_field.dart';
 import '../../instruments/constants.dart';

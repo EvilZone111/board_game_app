@@ -235,17 +235,20 @@ class ApiService {
   //обновление информации о пользователе
   Future<dynamic> updateUserInfo([birthDate, sex, bio]) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = await getToken();
     int? id = prefs.getInt('id');
     final response = await http.patch(Uri.parse('${urlPrefix}profiles/$id/'),
       headers: {
-        "content-type": "application/json"
+        "Accept": "application/json",
+        "content-type": "application/json",
       },
       body: json.encode({
         'date_of_birth': birthDate,
-        'sex': sex==null ? sex : 'U',
+        'sex': sex ?? 'U',
         'bio': bio,
       }),
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return {
         'statusCode': response.statusCode,

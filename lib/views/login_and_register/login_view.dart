@@ -1,7 +1,5 @@
-import 'package:board_game_app/instruments/api.dart';
-import 'package:board_game_app/viewmodels/login%20and%20register/login_view_model.dart';
-import 'package:board_game_app/views/login and register/registration_screen.dart';
-import 'package:board_game_app/views/home_screen.dart';
+import 'package:board_game_app/view_models/login_and_register/login_view_model.dart';
+import 'package:board_game_app/views/login_and_register/registration_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,58 +7,23 @@ import '../../instruments/components/custom_button.dart';
 import '../../instruments/components/custom_form_field.dart';
 import '../../instruments/constants.dart';
 
-class LoginPage extends StatefulWidget {
-
-  var _emailController = TextEditingController();
-  var _passwordController = TextEditingController();
-  String? emailErrorMsg;
-  String? passwordErrorMsg;
+class LoginView extends StatefulWidget {
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-
-  bool loadingToggle=false;
-  final _formKey = GlobalKey<FormState>();
-  final ApiService _apiService = ApiService();
-
-  void login(context) async{
-    setState(() {
-      widget.emailErrorMsg = null;
-      widget.passwordErrorMsg = null;
-      loadingToggle = true;
-    });
-    if(widget._emailController.text.isNotEmpty && widget._passwordController.text.isNotEmpty) {
-      var response = await _apiService.authenticate(widget._emailController.text.toString(), widget._passwordController.text.toString());
-      if(response['statusCode'] == 200){
-        Navigator.push( context, MaterialPageRoute(
-            builder: (context) => HomeScreen(userId: response['id'],))
-        );
-      }
-      else{
-        setState(() {
-          widget.emailErrorMsg = '';
-          widget.passwordErrorMsg = 'Неверный логин или пароль';
-        });
-      }
-    }
-    setState(() {
-      loadingToggle = false;
-    });
-  }
-
+class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
     LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: kFormPadding,
           child: Form(
-            key: _formKey,
             child: CustomScrollView(
               scrollDirection: Axis.vertical,
               slivers: [
@@ -84,46 +47,27 @@ class _LoginPageState extends State<LoginPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           CustomFormField(
-                            controller: widget._emailController,
+                            controller: loginViewModel.emailController,
                             textPlaceholder: 'Email',
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                widget.emailErrorMsg = 'Поле обязательно для заполнения';
-                                return widget.emailErrorMsg;
-                              }
-                              else if(!value.contains('@')){
-                                widget.emailErrorMsg = 'Неверный формат электронной почты';
-                                return widget.emailErrorMsg;
-                              }
-                              return null;
-                            },
-                            errorMsg: widget.emailErrorMsg,
+                            errorMsg: loginViewModel.emailErrorMsg,
                           ),
                           const SizedBox(height: 10),
                           CustomFormField(
-                            controller: widget._passwordController,
+                            controller: loginViewModel.passwordController,
                             textPlaceholder: 'Пароль',
                             isPassword: true,
-                            validator: (value) {
-                              if(value == null || value.isEmpty){
-                                widget.passwordErrorMsg = 'Поле обязательно для заполнения';
-                                return widget.passwordErrorMsg;
-                              }
-                              return null;
-                            },
-                            errorMsg: widget.passwordErrorMsg,
+                            errorMsg: loginViewModel.passwordErrorMsg,
                           ),
                           const SizedBox(height: 10),
                           CustomButton(
                             onPressed: (){
-                              if(_formKey.currentState!.validate()) {
-                                login(context);
-                              }
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              loginViewModel.login(context);
                             },
                             text: 'Войти',
                             color: Colors.blue,
                             textColor: Colors.white,
-                            isLoading: loadingToggle,
+                            isLoading: loginViewModel.loading,
                           ),
                           //TODO: кнопка "забыли пароль?"
                           // const Padding(
@@ -145,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                           CustomButton(
                             onPressed: (){
                               Navigator.push( context, MaterialPageRoute(
-                                  builder: (context) => RegistrationPage())
+                                  builder: (context) => RegistrationView())
                               );
                             },
                             text: 'Зарегистрироваться',

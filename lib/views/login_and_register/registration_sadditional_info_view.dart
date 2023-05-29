@@ -1,59 +1,21 @@
-import 'package:board_game_app/views/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../instruments/api.dart';
+import 'package:provider/provider.dart';
 import '../../instruments/components/custom_button.dart';
 import '../../instruments/components/custom_form_field.dart';
 import '../../instruments/constants.dart';
-import 'package:intl/intl.dart';
+import '../../view_models/login_and_register/registration_additional_info_view_model.dart';
 
-class RegistrationSecondPage extends StatefulWidget {
+class RegistrationAdditionalInfoView extends StatefulWidget {
 
   @override
-  State<RegistrationSecondPage> createState() => _RegistrationSecondPageState();
+  State<RegistrationAdditionalInfoView> createState() => _RegistrationAdditionalInfoViewState();
 }
-class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
-  var _birthdateController = TextEditingController();
-  String? _dateToServer;
-  String? _sex;
-  String? _sexText;
-  var _bioController = TextEditingController();
-
-  bool loadingToggle=false;
-  final ApiService _apiService = ApiService();
-
-  Future<void> finish(context) async {
-    setState(() {
-      loadingToggle = true;
-    });
-    if( _birthdateController.text.isNotEmpty
-        || _sex!=null
-        || _bioController.text.isNotEmpty) {
-      var response = await _apiService.updateUserInfo(
-          _dateToServer,
-          _sex,
-          _bioController.text.toString());
-      if(response['statusCode'] == 200){
-        moveToHomeScreen();
-      }
-    }
-    setState(() {
-      loadingToggle = false;
-    });
-  }
-
-  void moveToHomeScreen() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    int id = pref.getInt('id')!;
-    if (context.mounted){
-      Navigator.push( context, MaterialPageRoute(
-          builder: (context) => HomeScreen(userId: id)));
-    }
-  }
+class _RegistrationAdditionalInfoViewState extends State<RegistrationAdditionalInfoView> {
 
   @override
   Widget build(BuildContext context) {
+    RegistrationAdditionalInfoViewModel registrationAdditionalInfoViewModel = Provider.of<RegistrationAdditionalInfoViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Дополнительная информация'),
@@ -76,13 +38,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           const SizedBox(height: 10),
-                          // CustomFormField(
-                          //   controller: _cityController,
-                          //   textPlaceholder: 'Город',
-                          // ),
-                          // kHorizontalSizedBoxDivider,
                           CustomFormField(
-                            controller: _birthdateController,
+                            controller: registrationAdditionalInfoViewModel.birthdateController,
                             textPlaceholder: 'Дата рождения',
                             isReadOnly: true,
                             onTap: () async {
@@ -92,16 +49,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                                   firstDate: DateTime(1950),
                                   lastDate: DateTime(2008)
                               );
-                              if (pickedDate!=null){
-                                String date = DateFormat('yyyy-MM-dd')
-                                    .format(pickedDate);
-                                String formattedDate = DateFormat('dd.MM.yyyy')
-                                    .format(pickedDate);
-                                _dateToServer = date;
-                                // String formattedDate = DateFormat('yyyy-MM-dd').
-                                setState(() {
-                                  _birthdateController.text = formattedDate;
-                                });
+                              if(pickedDate!=null){
+                                registrationAdditionalInfoViewModel.fillBirthdate(pickedDate);
                               }
                             },
                           ),
@@ -129,30 +78,23 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                                     child: Text('Женский'),
                                   ),
                                 ],
-                                hint: _sex == null
+                                hint: registrationAdditionalInfoViewModel.sexFullText == null
                                     ? const Text('Пол')
-                                    : Text(_sexText!, style: const TextStyle(color: Colors.white),),
+                                    : Text(
+                                        registrationAdditionalInfoViewModel.sexFullText!,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
                                 underline: const SizedBox(),
                                 isExpanded: true,
                                 icon: kArrowDownIcon,
-                                // dropdownColor: const Color(0xFF454545),
                                 elevation: 0,
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      _sex = value;
-                                      _sex == 'U' ? _sexText='Не указывать'
-                                          : _sex == 'M' ? _sexText='Мужской'
-                                          : _sexText='Женский';
-                                    });
-                                  }
-                                },
+                                onChanged: registrationAdditionalInfoViewModel.chooseSex,
                               ),
                             ),
                           ),
                           kHorizontalSizedBoxDivider,
                           CustomFormField(
-                            controller: _bioController,
+                            controller: registrationAdditionalInfoViewModel.bioController,
                             textPlaceholder: 'Расскажите о себе',
                             maxLines: 1,
                           )
@@ -164,14 +106,12 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             padding: const EdgeInsets.only(),
                             child: CustomButton(
                               onPressed: (){
-                                setState((){
-                                  finish(context);
-                                });
+                                registrationAdditionalInfoViewModel.finish(context);
                               },
                               text: 'Завершить',
                               color: Colors.blue,
                               textColor: Colors.white,
-                              isLoading: loadingToggle,
+                              isLoading: registrationAdditionalInfoViewModel.loading,
                             ),
                           ),
                           kHorizontalSizedBoxDivider,
@@ -179,9 +119,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: CustomButton(
                               onPressed: (){
-                                setState((){
-                                  moveToHomeScreen();
-                                });
+                                registrationAdditionalInfoViewModel.moveToHomeScreen(context);
                               },
                               text: 'Заполнить позднее',
                               color: Colors.white,
